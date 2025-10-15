@@ -7,7 +7,9 @@ New-Item -ItemType Directory -Force out | Out-Null
 Set-Location out
 
 if ($IsWindows) {
-    cl /nologo /TC /FC /FAs -Zi /W4 /GS- /c ..\src\win32_main.c
+    # Compile with assembly LISTING for inspection (not assemble-able)
+    cl /nologo /TC /c /Zi /W4 /GS- /FC /FAs /Fa ..\src\win32_main.c
+
     link /nologo /DEBUG /PDB:win32_main.pdb /NODEFAULTLIB /SUBSYSTEM:CONSOLE /ENTRY:Entry .\win32_main.obj kernel32.lib
 }
 else {

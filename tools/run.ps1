@@ -3,7 +3,7 @@
 pushd $PSScriptRoot
 cd ..
 
-if($Windows){
+if($IsWindows){
     .\out\win32_main.exe
 }
 else {
