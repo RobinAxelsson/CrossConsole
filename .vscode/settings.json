@@ -1,0 +1,20 @@
+{
+  // Hides files from the Explorer sidebar
+//   "files.exclude": {
+//     "**/ignore_this.c": true,
+//     "**/old_code/**": true
+//   },
+
+  // Prevents search / Find All References from touching them
+//   "search.exclude": {
+//     "**/ignore_this.c": true,
+//     "**/old_code/**": true
+//   },
+
+  // Stops IntelliSense / C++ extension from parsing them
+  "C_Cpp.files.exclude": {
+    "handmade-hero/*": true
+  },
+  // "C_Cpp.default.compilerPath": "cl.exe",
+  "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+}
