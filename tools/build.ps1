@@ -5,15 +5,26 @@ Set-Location ..
 Remove-Item -Recurse -Force out -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force out | Out-Null
 Set-Location out
-Write-Host "TEST"
+
 if ($IsWindows) {
-    "Compiling win32..."
     cl /nologo /TC /FC /FAs -Zi /W4 /GS- /c ..\src\win32_main.c
     link /nologo /DEBUG /PDB:win32_main.pdb /NODEFAULTLIB /SUBSYSTEM:CONSOLE /ENTRY:Entry .\win32_main.obj kernel32.lib
 }
 else {
-    "Compiling for linux..."
-    exit 0
-    gcc -std=c99 -Wall -Wextra -O2 ../src/linux_main.c -o linux_main
+    # 1. Preprocess .i
+    gcc -std=c99 -Wall -Wextra -g -O0 -fno-pie -fno-stack-protector -fno-builtin -nostdlib -E -o linux_main.i ../src/linux_main.c
+
+    # 2. Compile: C → Assembly .s
+    gcc -std=c99 -Wall -Wextra -g -O0 -fno-pie -fno-stack-protector -fno-builtin -nostdlib -S -o linux_main.s linux_main.i
+
+    # 3. Assemble: Assembly → Object
+    as -o linux_main.o linux_main.s
+
+    # 4. Link: Object → Executable
+    ld -static -nostdlib -no-pie -e _start -o linux_main linux_main.o
+
+    # 5. Optional: Disassemble final ELF (Intel syntax)
+    objdump -M intel -d linux_main > linux_main_dump.s
 }
+
 Pop-Location > $null

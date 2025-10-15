@@ -7,6 +7,6 @@ if($Windows){
     .\out\win32_main.exe
 }
 else {
-
+    ./out/linux_main
 }
 popd

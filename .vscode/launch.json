@@ -13,6 +13,16 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/cwd",
             "environment": []
+        },
+        {
+            "name": "(Linux) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/out/linux_main",
+            "args": ["Hello", "World"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/cwd",
+            "environment": []
         }
     ]
 }
