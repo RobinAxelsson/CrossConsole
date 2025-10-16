@@ -14,10 +14,10 @@ static void print(const void *ptr, int len)
 void __stdcall Entry(void)
 {
     const char msg[] = "Win32, no CLR\r\n"; 
-    print(msg, sizeof(msg));
-    print(msg, sizeof(msg));
+    print(msg, sizeof(msg)+100);
+    print(msg, sizeof(msg)+100);
 
-    PVOID peb = (PVOID)__readgsqword(0x60);
+    //PVOID peb = (PVOID)__readgsqword(0x60);
 
     ExitProcess(0);
 }

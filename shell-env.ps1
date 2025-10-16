@@ -1,4 +1,4 @@
-e#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 
 $tools = Join-Path $PSScriptRoot "tools"
 $pathSep = [System.IO.Path]::PathSeparator

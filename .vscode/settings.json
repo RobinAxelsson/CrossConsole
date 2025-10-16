@@ -12,9 +12,9 @@
 //   },
 
   // Stops IntelliSense / C++ extension from parsing them
-  "C_Cpp.files.exclude": {
-    "handmade-hero/*": true
-  },
+  // "C_Cpp.files.exclude": {
+  //   "handmade-hero/*": true
+  // },
   // "C_Cpp.default.compilerPath": "cl.exe",
   "C_Cpp.default.compilerPath": "/usr/bin/gcc",
 }
