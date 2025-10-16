@@ -11,8 +11,7 @@ enum {
 
 static inline long print(const char *buf, long len) {
     long ret;
-    register long r10 __asm__("r10");  // not used here, but good pattern for 4th arg
-    (void)r10;
+
     __asm__ volatile (
         "syscall"
         : "=a"(ret)
@@ -29,12 +28,14 @@ static inline void exit(long code) {
         : "a"((long)SYS_exit), "D"(code)
         : "rcx", "r11", "memory"
     );
-    __builtin_unreachable();
+    
+    __builtin_trap();
 }
 
 // Real ELF entry point. Kernel jumps here; there is no main().
 void _start(void) {
     static const char msg[] = "Hello, Linux (no libc, C)\n";
+    print(msg, (long)(sizeof(msg) - 1));
     print(msg, (long)(sizeof(msg) - 1));
     exit(0);
 }
