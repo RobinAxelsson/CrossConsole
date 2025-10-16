@@ -1,11 +1,16 @@
-#!/usr/bin/env pwsh
+e#!/usr/bin/env pwsh
 
 $tools = Join-Path $PSScriptRoot "tools"
-$pathSep = [System.IO.Path]::PathSeparator  # ';' on Win, ':' on Unix
+$pathSep = [System.IO.Path]::PathSeparator
 $env:PATH = "$tools$pathSep$env:PATH"
 
-if($IsWindows -eq $false){
+if ($IsWindows -eq $false) {
     Write-Host "Setting up environment for Linux..."
+
+    if (-not (Get-Command gcc -ErrorAction SilentlyContinue)) {
+        Write-Host "gcc missing — install build tools:"
+        Write-Host "sudo apt update && sudo apt install -y build-essential"
+    }
 }
 else {
     echo "Setting up environment for win32..."

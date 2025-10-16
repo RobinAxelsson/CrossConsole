@@ -1,13 +1,23 @@
 #include <windows.h>
+#include <intrin.h>
 
 #pragma comment(linker, "/SUBSYSTEM:CONSOLE")
 #pragma comment(linker, "/ENTRY:Entry")
 
-void __stdcall Entry(void)
+static void print(const void *ptr, int len)
 {
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-    const char msg[] = "Win32, no CLR\r\n";
     DWORD written = 0;
-    WriteFile(h, msg, (DWORD)(sizeof(msg) - 1), &written, NULL);
+    WriteFile(h, ptr, (DWORD)len, &written, NULL);
+}
+
+void __stdcall Entry(void)
+{
+    const char msg[] = "Win32, no CLR\r\n"; 
+    print(msg, sizeof(msg));
+    print(msg, sizeof(msg));
+
+    PVOID peb = (PVOID)__readgsqword(0x60);
+
     ExitProcess(0);
 }
