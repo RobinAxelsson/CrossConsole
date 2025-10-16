@@ -14,8 +14,9 @@ static void print(const void *ptr, int len)
 void __stdcall Entry(void)
 {
     const char msg[] = "Win32, no CLR\r\n"; 
-    print(msg, sizeof(msg)+100);
-    print(msg, sizeof(msg)+100);
+    print(msg, sizeof(msg)-1);
+    print(msg, sizeof(msg)-1);
+    print(msg, sizeof(msg)-1);
 
     //PVOID peb = (PVOID)__readgsqword(0x60);
 

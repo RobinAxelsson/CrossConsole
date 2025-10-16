@@ -7,10 +7,13 @@ New-Item -ItemType Directory -Force "bin" | Out-Null
 Set-Location "bin"
 
 if ($IsWindows) {
-    # Compile with assembly LISTING for inspection (not assemble-able)
-    cl /nologo /TC /c /Zi /W4 /GS- /FC /FAs /Fa ..\src\win32_main.c
+    New-Item -ItemType Directory -Force "obj" | Out-Null
 
-    link /nologo /DEBUG /PDB:win32_main.pdb /NODEFAULTLIB /SUBSYSTEM:CONSOLE /ENTRY:Entry .\win32_main.obj kernel32.lib
+    Set-Location obj
+    cl /nologo /TC /c /Zi /W4 /GS- /FC /FAs /Fa ..\..\src\win32_main.c
+
+    Set-Location ..
+    link /nologo /DEBUG /PDB:win32_main.pdb /NODEFAULTLIB /SUBSYSTEM:CONSOLE /ENTRY:Entry .\obj\win32_main.obj kernel32.lib
 }
 else {
     # 1. Preprocess .i

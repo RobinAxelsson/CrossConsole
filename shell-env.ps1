@@ -1,8 +1,8 @@
 #!/usr/bin/env pwsh
 
-$tools = Join-Path $PSScriptRoot "tools"
+$scripts = Join-Path $PSScriptRoot "scripts"
 $pathSep = [System.IO.Path]::PathSeparator
-$env:PATH = "$tools$pathSep$env:PATH"
+$env:PATH = "$scripts$pathSep$env:PATH"
 
 if ($IsWindows -eq $false) {
     Write-Host "Setting up environment for Linux..."
@@ -22,6 +22,10 @@ if ($IsWindows -eq $false) {
 else {
     echo "Setting up environment for win32..."
 
+    if ((Get-Command cl -ErrorAction SilentlyContinue)) {
+        exit 0
+    }
+
     pushd > $null # vswhere changes the dir
 
     $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -29,7 +33,7 @@ else {
         -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
         -property installationPath
 
-    if(Test-Path($vsPath) -eq $false){
+    if(-not (Test-Path $vsPath)){
         "Visual studio not found, is it installed?"
         exit 1
     }
