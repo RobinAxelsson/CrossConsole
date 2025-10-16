@@ -9,20 +9,20 @@ enum {
     SYS_exit = 60 
 }; // x86-64 syscall numbers
 
-static inline long sys_write(long fd, const void *buf, long len) {
+static inline long print(const char *buf, long len) {
     long ret;
     register long r10 __asm__("r10");  // not used here, but good pattern for 4th arg
     (void)r10;
     __asm__ volatile (
         "syscall"
         : "=a"(ret)
-        : "a"((long)SYS_write), "D"(fd), "S"(buf), "d"(len)
+        : "a"((long)SYS_write), "D"(1), "S"(buf), "d"(len)
         : "rcx", "r11", "memory"
     );
     return ret;
 }
 
-static inline void sys_exit(long code) {
+static inline void exit(long code) {
     __asm__ volatile (
         "syscall"
         :
@@ -35,6 +35,6 @@ static inline void sys_exit(long code) {
 // Real ELF entry point. Kernel jumps here; there is no main().
 void _start(void) {
     static const char msg[] = "Hello, Linux (no libc, C)\n";
-    sys_write(1, msg, (long)(sizeof(msg) - 1));
-    sys_exit(0);
+    print(msg, (long)(sizeof(msg) - 1));
+    exit(0);
 }

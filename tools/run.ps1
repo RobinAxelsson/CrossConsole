@@ -4,9 +4,9 @@ pushd $PSScriptRoot
 cd ..
 
 if($IsWindows){
-    .\out\win32_main.exe
+    .\bin\win32_main.exe
 }
 else {
-    ./out/linux_main
+    ./bin/linux_main
 }
 popd
