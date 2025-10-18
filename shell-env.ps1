@@ -18,11 +18,18 @@ if ($IsWindows -eq $false) {
         Write-Host "sudo apt update && sudo apt install -y gdb"
         exit 1
     }
+
+    if (-not (Get-Command nasm -ErrorAction SilentlyContinue)) {
+        Write-Host "nasm missing — install:"
+        Write-Host "sudo apt update && sudo apt install -y nasm"
+        exit 1
+    }
 }
 else {
     echo "Setting up environment for win32..."
 
     if ((Get-Command cl -ErrorAction SilentlyContinue)) {
+        # Dont load the vs shell two times
         exit 0
     }
 

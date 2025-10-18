@@ -39,7 +39,23 @@ if ($IsWindows) {                    # Only run this block on Windows hosts
     Write-Host "Built win32_main.exe with symbols (win32_main.pdb) and map (win32_main.map)."  # Status message
 }
 else {
-  echo "No linux asm implimented"
+
+    $nasmArgs = @(
+        "-felf64"
+        "../src/linux_nasm.s"
+        "-o"
+        "linux_nasm.o"
+    )
+    nasm @nasmArgs
+
+    $ldArgs = @(
+        "-static"
+        "-0"
+        "linux_main"
+        "linux_nasm.0"
+    )
+
+    ld @ldArgs
 }
 
 Pop-Location > $null
