@@ -35,7 +35,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/bin/win32_main.exe",
             "args": ["Hello", "World"],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}/cwd",
             "environment": []
         }

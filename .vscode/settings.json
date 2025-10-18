@@ -17,4 +17,5 @@
   // },
   // "C_Cpp.default.compilerPath": "cl.exe",
   "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+  "memory-view.showMemoryPanel": true,
 }

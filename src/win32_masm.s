@@ -1,6 +1,7 @@
 EXTERN GetStdHandle : PROC
 EXTERN WriteConsoleA : PROC
 EXTERN ExitProcess : PROC
+EXTERN GetCommandLineA : PROC
 
 .const
     STD_OUTPUT_HANDLE equ -11
@@ -14,6 +15,10 @@ EXTERN ExitProcess : PROC
 main PROC
     sub     rsp, 28h
 
+    call    GetCommandLineA
+
+    mov     r10, rax
+
     mov     ecx, STD_OUTPUT_HANDLE
     call    GetStdHandle
     mov     rsi, rax
@@ -24,7 +29,7 @@ main PROC
     lea     rcx, [rsi]
     lea     rdx, msgText
     mov     r8d, msgLength
-    lea     r9, bytesWritten
+    xor     r9,  r9
     xor     rax, rax
     call    WriteConsoleA
 
