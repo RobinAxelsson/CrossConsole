@@ -19,6 +19,7 @@ if ($IsWindows) {                    # Only run this block on Windows hosts
         "win32_masm.o"
         "../src/win32_masm.s"
     )
+    
     ml64 @mlArgs                    # Run the assembler with the above arguments
 
     # --- LINK ---
@@ -41,20 +42,35 @@ if ($IsWindows) {                    # Only run this block on Windows hosts
 else {
 
     $nasmArgs = @(
-        "-felf64"
-        "../src/linux_nasm.s"
-        "-o"
-        "linux_nasm.o"
+        "-felf64"              # output format: 64-bit ELF object
+        "../src/linux_nasm.s"  # input file
+        "-o", "linux_nasm.o"   # output object file
+        "-g"                   # generate dwarf debug info (NASM built-in)
+        "-F", "dwarf"          # explicitly specify DWARF debug format
+        "-w+all"               # enable all warnings
+        "-w-number-overflow"   # warn on numeric overflow
+
+        #"-w+error"            # treat warnings as errors
+        #"-dDEBUG"             # example macro definition (like -D in C)
+        #"-l", "listing.lst"   # generate assembly listing
     )
+
     nasm @nasmArgs
 
     $ldArgs = @(
-        "-static"
-        "-0"
-        "linux_main"
-        "linux_nasm.0"
-    )
+        "-static"              # link statically (no external libs)
+        #"--strip-debug"       # strip debug symbols
+        "-o", "linux_main"     # output executable
+        "linux_nasm.o"         # object file to link
 
+        #"-e", "_start"        # set entry point explicitly (if name differs)
+        "-Map=output.map"      # generate map file DEBUG
+        #"-z", "noexecstack"   # mark stack as non-executable (security)
+        #"--gc-sections"       # remove unused sections (smaller binary)
+        #"-pie"                # build position-independent executable (requires fPIC)
+        #"-s"                  # strip ALL symbols (tiny binary, NO DEBUG!)
+    )
+    
     ld @ldArgs
 }
 
